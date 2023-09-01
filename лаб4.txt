@@ -1,0 +1,38 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Введіть ім'я підкаталогу для пошуку: ");
+        string targetDirectoryName = Console.ReadLine();
+
+        string directoryPath = @"C:";
+
+        try
+        {
+            string[] subDirectories = Directory.GetDirectories(directoryPath);
+
+            foreach (string subDirectory in subDirectories)
+            {
+                string directoryName = Path.GetFileName(subDirectory);
+                if (directoryName.Equals(targetDirectoryName, StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine($"Знайдено підкаталог з ім'ям '{targetDirectoryName}': {subDirectory}");
+                    return;
+                }
+            }
+
+            Console.WriteLine($"Підкаталог з ім'ям '{targetDirectoryName}' не знайдено в каталозі.");
+        }
+        catch (DirectoryNotFoundException)
+        {
+            Console.WriteLine($"Каталог '{directoryPath}' не існує.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Під час пошуку виникла помилка: {ex.Message}");
+        }
+    }
+}
